@@ -1,0 +1,73 @@
+@startuml
+class Entidad {
+        +String codigo
+        +String domicilioCentral
+        +ArrayList<Sucursal> sucursales
+    }
+    class Sucursal {
+        +String codigo
+        +String domicilio
+        +int numeroEmpleados
+        +ArrayList<VigilanteContratado> vigilantesContratos
+        +ArrayList<Persona> personasAsaltantes
+    }
+    class Vigilante {
+        +String codigo
+        +int edad
+        +ArrayList<VigilanteContratado> vigilantesContratos
+    }
+    class Persona {
+        +String codigo
+        +String nombreCompleto
+        +Banda banda
+        +ArrayList<Delito> delitos
+    }
+    class Banda {
+        +int numeroBanda
+        +int numeroMiembros
+        +ArrayList<Persona> miembros
+    }
+    class Juez {
+        +String claveJuzgado
+        +String nombre
+        +int añosServicio
+        +ArrayList<Delito> delitos
+    }
+    class Delito {
+        +Date fechaAsalto
+        +boolean condenado
+        +int tiempoCondena
+        +Persona persona
+        +Sucursal sucursal
+        +Juez juez
+    }
+    class VigilanteContratado {
+        +Date fechaContratacion
+        +boolean conArma
+        +Vigilante vigilante
+        +Sucursal sucursal
+    }
+    class Usuario {
+        +String tipoUsuario
+        +Vigilante vigilante
+        +String nombre
+    }
+
+
+Entidad "1" --> "1..*" Sucursal : tiene
+Sucursal "1" --> "1..*" VigilanteContratado : contrata
+Sucursal "1" --> "0..*" Persona : puede ser asaltada
+Vigilante "1" --> "1..*" VigilanteContratado : tiene
+Persona "0..*" --> "0..1" Banda : pertenece a
+Persona "0..*" --> "1..*" Delito : comete
+Sucursal "0..*" --> "0..*" Delito : es asaltada en
+Juez "1" --> "0..*" Delito : juzga
+Persona "0..*" --> "0..*" Juez : es juzgada por
+Delito "1" --> "1" Persona : es cometido por
+Delito "1" --> "1" Sucursal : ocurre en
+VigilanteContratado "1" --> "1" Vigilante : involucra
+VigilanteContratado "1" --> "1" Sucursal : involucra
+Usuario "1" --> "1" Vigilante : accede como
+Usuario "1" --> "1" Investigador : accede como
+Usuario "1" --> "1" Administrador : accede como
+@enduml
